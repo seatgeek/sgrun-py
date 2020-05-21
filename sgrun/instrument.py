@@ -25,7 +25,7 @@ def instrument_application():  # type: () -> None
     """
     _ddtrace_run()
     _customize_ddtrace()
-    # _add_exception_hook()
+    _add_exception_hook()
     _instrument_batch_application()
 
 
