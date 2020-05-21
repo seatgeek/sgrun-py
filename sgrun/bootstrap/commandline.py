@@ -18,7 +18,9 @@ def main():
     python_path = os.getenv("PYTHONPATH")
 
     if python_path:
-        os.environ["PYTHONPATH"] = "{}{}{}".format(sitecustomize_dir, os.path.pathsep, python_path)
+        os.environ["PYTHONPATH"] = "{}{}{}".format(
+            sitecustomize_dir, os.path.pathsep, python_path
+        )
     else:
         os.environ["PYTHONPATH"] = sitecustomize_dir
 
