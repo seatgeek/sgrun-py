@@ -4,9 +4,10 @@ Code for instrumenting our python applications.
 import atexit
 import os
 import sys
-from typing import NamedTuple
+from typing import Callable, NamedTuple, Optional
 
 import ddtrace
+from ddtrace.contrib.tornado import TracerStackContext
 from ddtrace.filters import FilterRequestsOnUrl
 
 
