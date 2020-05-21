@@ -7,6 +7,7 @@ import sys
 from typing import NamedTuple
 
 import ddtrace
+from ddtrace.filters import FilterRequestsOnUrl
 
 
 DD_SERVICE = os.getenv("DD_SERVICE", "")
@@ -15,8 +16,26 @@ NOOP = lambda *args: None
 
 
 def instrument_application():  # type: () -> None
+    """
+    Top-level function called at the start of any python application that's been bootstrapped with sgrun.
+    """
     _ddtrace_run()
+    _customize_ddtrace()
     _instrument_batch_application()
+
+
+def _customize_ddtrace():
+    """
+    Adds general seatgeek customizations to the default ddtrace setup.
+    """
+    ddtrace.tracer.configure(
+        settings={
+            "FILTERS": [
+                # don't send status handler tracers to DD APM
+                FilterRequestsOnUrl(r".*/(_)?status$")
+            ]
+        }
+    )
 
 
 def _instrument_batch_application():  # type: () -> None
