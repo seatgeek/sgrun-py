@@ -25,7 +25,24 @@ def instrument_application():  # type: () -> None
     """
     _ddtrace_run()
     _customize_ddtrace()
+    _add_exception_hook()
     _instrument_batch_application()
+
+
+def _add_exception_hook():  # type: () -> None
+    """
+    Override sys.excepthook so that uncaught exceptions are logged using the logger.
+    """
+
+    def excepthook(
+        exc_type, exc_value, exc_traceback
+    ):  # type: (Type[BaseException], BaseException, TracebackType) -> None
+        logger.error(
+            "caught exception on exit", exc_info=(exc_type, exc_value, exc_traceback)
+        )
+        sys.__excepthook__(exc_type, exc_value, exc_traceback)
+
+    sys.excepthook = excepthook
 
 
 def _customize_ddtrace():
