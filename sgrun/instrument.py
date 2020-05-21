@@ -7,7 +7,6 @@ import sys
 from typing import Callable, NamedTuple, Optional
 
 import ddtrace
-from ddtrace.contrib.tornado import TracerStackContext
 from ddtrace.filters import FilterRequestsOnUrl
 
 
@@ -69,6 +68,7 @@ def _tornado_fix():  # type: () -> Callable
     # check if tornado is installed *and* patched by ddtrace
     try:
         import tornado
+        from ddtrace.contrib.tornado import TracerStackContext
 
         tornado_patched = getattr(tornado, "__datadog_patch", False)
     except Exception:
@@ -79,6 +79,7 @@ def _tornado_fix():  # type: () -> Callable
 
     # setup
     # just *creating* an ioloop makes ddtrace think we're inside a running event loop (see issue in function's docstring)
+
     tornado.ioloop.IOLoop().current()
     tracer_stack_context = TracerStackContext()
     tracer_stack_context.__enter__()
