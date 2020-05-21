@@ -40,7 +40,6 @@ def _add_exception_hook():  # type: () -> None
         logger.error(
             "caught exception on exit", exc_info=(exc_type, exc_value, exc_traceback)
         )
-        sys.__excepthook__(exc_type, exc_value, exc_traceback)
 
     sys.excepthook = excepthook
 
