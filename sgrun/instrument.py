@@ -118,9 +118,7 @@ def _ddtrace_run():  # type: () -> None
     # remove our sitecustomize.py from the path before calling instrument_application.
     # this is because ddtrace-run will try to call a user's sitecustomize.py.
     # https://github.com/DataDog/dd-trace-py/blob/a6df2696bc906758c027be3257deabce344fb5a9/ddtrace/bootstrap/sitecustomize.py#L116-L123
-    bootstrap_dir = "{}{}{}".format(
-        os.path.dirname(__file__), os.path.pathsep, "bootstrap"
-    )
+    bootstrap_dir = "{}/{}".format(os.path.dirname(__file__), "bootstrap")
     sys.path.remove(bootstrap_dir)
 
     from ddtrace.bootstrap import sitecustomize
