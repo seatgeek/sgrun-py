@@ -69,7 +69,7 @@ def _instrument_batch_application():  # type: () -> None
 
     tornado_fix_cleanup = _tornado_fix()
     span = ddtrace.tracer.trace(
-        "batch.{}".format(batch_info.batch_type), service=DD_SERVICE
+        "batch.{}".format(batch_info.batch_type), service=DD_SERVICE, span_type="batch"
     )
     atexit.register(tornado_fix_cleanup)
     atexit.register(span.finish)
