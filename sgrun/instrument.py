@@ -9,10 +9,14 @@ from typing import Callable, NamedTuple, Optional
 import ddtrace
 from ddtrace.filters import FilterRequestsOnUrl
 
+from sgrun.log import get_logger
+
 
 DD_SERVICE = os.getenv("DD_SERVICE", "")
 NOMAD_JOB_NAME = os.getenv("NOMAD_JOB_NAME", "")
 NOOP = lambda *args: None
+
+logger = get_logger("sgrun.instrument")
 
 
 def instrument_application():  # type: () -> None
