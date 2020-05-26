@@ -33,6 +33,15 @@ def _add_exception_hook():  # type: () -> None
     """
     Override sys.excepthook so that uncaught exceptions are logged using the logger.
     """
+    # raven (our legacy sentry client on many apps) will override our excepthook.
+    # since our excepthook does a logger.error, which will send an exception to sentry
+    # when sglib or sglog is install, we patch out raven's install_sys_hook here.
+    # see: https://github.com/getsentry/raven-python/blob/285b257cf386bfac78f6fe334c9044af65f98561/raven/base.py#L274-L284
+    try:
+        from raven.base import Client
+        setattr(Client, "install_sys_hook", NOOP)
+    except ImportError as e:
+        pass
 
     def excepthook(
         exc_type, exc_value, exc_traceback
