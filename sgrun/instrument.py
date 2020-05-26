@@ -70,7 +70,6 @@ def _instrument_batch_application():  # type: () -> None
     span = ddtrace.tracer.trace(
         "batch.{}".format(batch_info.batch_type), service=DD_SERVICE, span_type="batch"
     )
-    atexit.register(ddtrace.tracer.shutdown)
     atexit.register(tornado_fix_cleanup)
     atexit.register(span.finish)
 
