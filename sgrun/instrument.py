@@ -58,6 +58,7 @@ def _customize_ddtrace():
     Adds general seatgeek customizations to the default ddtrace setup.
     """
     ddtrace.tracer.configure(
+        collect_metrics=False,  # debug
         settings={
             "FILTERS": [
                 # don't send status handler tracers to DD APM
