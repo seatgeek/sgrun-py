@@ -109,8 +109,9 @@ def _tornado_fix():  # type: () -> Callable
 
     # setup
     # just *creating* an ioloop makes ddtrace think we're inside a running event loop (see issue in function's docstring)
-
     tornado.ioloop.IOLoop().current()
+
+    # enter our TracerStackContext, which is needed to preserve tracer state across asynchronous calls.
     tracer_stack_context = TracerStackContext()
     tracer_stack_context.__enter__()
 
